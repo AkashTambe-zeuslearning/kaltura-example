@@ -1,4 +1,5 @@
 import Video from 'react-native-video';
+import RNFetchBlob from 'rn-fetch-blob';
 import React from 'react';
 import {
   StyleSheet,
@@ -13,8 +14,9 @@ export default class NativePlayerScreen extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
+      uri : "",
       index: -1
-    };
+    }
   }
 
   turnOnCaption () {
@@ -23,9 +25,39 @@ export default class NativePlayerScreen extends React.Component<any, any> {
     });
   }
   turnOffCaption () {
+    console.log("captions turned off");
     this.setState({
       index: - 1
     });
+  }
+
+  downloadVideo() {
+    let downloadURI = "https://cdnapisec.kaltura.com/p/2503031/sp/0/playManifest/entryId/1_nu2wespu/protocol/https/format/mpegdash/video.mpd";
+    let dir = RNFetchBlob.fs.dirs.DocumentDir + '/kaltura/2503031/1_nu2wespu/video.mpd';
+    console.log(dir);
+    RNFetchBlob.config({
+      fileCache: true,
+      appendExt: "mpd",
+      path: dir,
+    })
+      .fetch('GET', downloadURI, {})
+      .progress((received, total) => {
+        const progress = (received / total) * 100;  
+        console.log(progress);
+      })
+      .then((res) => {
+        if (res.info().status == 200) {
+          console.log("Video downloaded successfully");
+          this.setState({
+            uri : dir
+          });
+        } else {
+          console.log("Errror occured while downloading video");
+        }
+      })
+      .catch(function (error) {
+        console.log("error occured",error);
+      });
   }
 
   render() {
@@ -33,7 +65,7 @@ export default class NativePlayerScreen extends React.Component<any, any> {
     // console.log("IN render Playertype is: " + playerType);
     return (
       <View style={styles.container}>
-          <Video source={{uri: "https://cdnapisec.kaltura.com/p/2503031/sp/0/playManifest/entryId/1_nu2wespu/protocol/https/format/mpegdash/video.mpd"}}   // Can be a URL or a local file.
+          <Video source={{uri: this.state.uri}}   // Can be a URL or a local file.
             ref={(ref) => {
                 this.player = ref
             }}
@@ -45,20 +77,28 @@ export default class NativePlayerScreen extends React.Component<any, any> {
             controls={true} />
           <View style={{marginTop:20}}>
             <Pressable
+              onPress={this.downloadVideo.bind(this)}
+              style={styles.button}
+            >
+              <Text style={styles.text}>DOWNLOAD VIDEO</Text>
+            </Pressable>
+          </View>
+          {this.state.uri !="" && <View style={{marginTop:20}}>
+            <Pressable
               onPress={this.turnOnCaption.bind(this)}
               style={styles.button}
             >
               <Text style={styles.text}>CC ON</Text>
             </Pressable>
-          </View>  
-          <View style={{marginTop:20}}>
+          </View>}  
+          {this.state.uri !="" && <View style={{marginTop:5}}>
             <Pressable
               onPress={this.turnOffCaption.bind(this)}
               style={styles.button}
             >
               <Text style={styles.text}>CC OFF</Text>
             </Pressable>
-          </View>
+          </View>}
       </View>
     );
   }
@@ -72,10 +112,10 @@ const styles = StyleSheet.create({
       fontSize: 12,
     },
     button: {
-      width: 100,
+      width: 150,
       alignItems: 'center',
       justifyContent: 'center',
-      marignTop: 20,
+      marignTop: 10,
       paddingVertical: 12,
       paddingHorizontal: 12,
       borderRadius: 4,

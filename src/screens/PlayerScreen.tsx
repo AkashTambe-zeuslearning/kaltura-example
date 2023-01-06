@@ -769,7 +769,7 @@ export default class App extends React.Component<any, any> {
               <Text></Text>
             )}
           </View>
-          <Button
+          {/* <Button
             onPress={()=>{
               offlineKalturaManager.downloadVideo(
                 "Clear: Kaltura",
@@ -807,7 +807,7 @@ export default class App extends React.Component<any, any> {
               )
             }}
             title="DOWONLOAD LX VIDEO 2"
-          />
+          /> */}
            {/* <Button
             onPress={()=>{
               offlineKalturaManager.playVideo("","",

@@ -19,7 +19,7 @@ export default class NativePlayerScreenNew extends React.Component<any, any> {
     return (
       <View style={styles.container}>
           <VideoPlayer
-              video={{ uri: "file:///storage/emulated/0/Android/data/com.example.reactnativekalturaplayer/files/dtg/clear/items/1_nu2wespu/data/local.mpd" }}
+              video={{ uri: "https://cdnapisec.kaltura.com/p/2503031/sp/0/playManifest/entryId/1_nu2wespu/protocol/https/format/mpegdash/video.mpd" }}
               videoWidth={300}
               videoHeight={300}
               style={styles.backgroundVideo}

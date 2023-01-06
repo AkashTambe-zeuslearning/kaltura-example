@@ -17,9 +17,9 @@ export default class NativePlayerScreenControls extends React.Component<any, any
     // console.log("IN render Playertype is this.props.playerTyp : " + this.props.playerType);
     // console.log("IN render Playertype is: " + playerType);
     return (
-      <View style={styles.container}>
+      <View styles={styles.container}>
           <VideoPlayer
-              source={{ uri: "file:///storage/emulated/0/Android/data/com.example.reactnativekalturaplayer/files/dtg/clear/items/1_nu2wespu/data/local.mpd" }}
+              source={{ uri: "https://cdnapisec.kaltura.com/p/2503031/sp/250303100/playManifest/entryId/1_nu2wespu/protocol/https/format/mpegdash/a.mpd" }}
           />
       </View>
     );
