@@ -4,9 +4,11 @@ import {
   StyleSheet,
   View,
   Text,
-  Pressable
+  Pressable,
+  Dimensions
 } from 'react-native';
 import { max } from 'react-native-reanimated';
+import Orientation from 'react-native-orientation-locker';
 
 export default class NativePlayerScreen extends React.Component<any, any> {
   player = null;
@@ -15,8 +17,11 @@ export default class NativePlayerScreen extends React.Component<any, any> {
     this.state = {
       index: -1
     };
+    //console.log(Dimensions.get('window').width);
   }
 
+  
+  
   turnOnCaption () {
     this.setState({
       index: 0
@@ -42,23 +47,11 @@ export default class NativePlayerScreen extends React.Component<any, any> {
               value: this.state.index,
             }}            
             style={styles.backgroundVideo}
-            controls={true} />
-          <View style={{marginTop:20}}>
-            <Pressable
-              onPress={this.turnOnCaption.bind(this)}
-              style={styles.button}
-            >
-              <Text style={styles.text}>CC ON</Text>
-            </Pressable>
-          </View>  
-          <View style={{marginTop:20}}>
-            <Pressable
-              onPress={this.turnOffCaption.bind(this)}
-              style={styles.button}
-            >
-              <Text style={styles.text}>CC OFF</Text>
-            </Pressable>
-          </View>
+            controls={true}
+            fullscreen={false}
+            paused={true}
+            poster={"https://baconmockup.com/300/200/"}
+            onFullscreenPlayerWillPresent={()=>{Orientation.lockToLandscape()}} />
       </View>
     );
   }
@@ -66,28 +59,14 @@ export default class NativePlayerScreen extends React.Component<any, any> {
 
 // Later on in your styles..
 const styles = StyleSheet.create({
-    text: {
-      align: 'center',
-      color: 'white',
-      fontSize: 12,
-    },
-    button: {
-      width: 100,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marignTop: 20,
-      paddingVertical: 12,
-      paddingHorizontal: 12,
-      borderRadius: 4,
-      elevation: 10,
-      backgroundColor: 'black',
-    },
     container: {
       flex: 1,
       alignItems: 'center',
     },
     backgroundVideo: {
-      width: 300,
-      height: 300
+      position: 'absolute',
+      top: Dimensions.get('window').height/2 - 300,
+      width: Dimensions.get('window').width,
+      height: 415
     },
   });

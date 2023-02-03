@@ -34,7 +34,7 @@ Navigation.events().registerAppLaunchedListener(async () => {
          children: [
            {
              component: {
-               name: NATIVE_PLAYER_OFFLINE,
+               name: NATIVE_PLAYER_SCREEN,
                options: {
                  topBar: {
                    visible: true,

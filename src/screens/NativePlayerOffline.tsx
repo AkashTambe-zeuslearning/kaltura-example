@@ -20,6 +20,7 @@ export default class NativePlayerScreen extends React.Component<any, any> {
   }
 
   turnOnCaption () {
+    console.log("captions turned on");
     this.setState({
       index: 0
     });
@@ -32,12 +33,12 @@ export default class NativePlayerScreen extends React.Component<any, any> {
   }
 
   downloadVideo() {
-    let downloadURI = "https://cdnapisec.kaltura.com/p/2503031/sp/0/playManifest/entryId/1_nu2wespu/protocol/https/format/mpegdash/video.mpd";
-    let dir = RNFetchBlob.fs.dirs.DocumentDir + '/kaltura/2503031/1_nu2wespu/video.mpd';
+    let downloadURI = "https://cdnapisec.kaltura.com/p/2503031/sp/0/playManifest/entryId/1_nu2wespu/protocol/https/format/applehttp/video.m3u8";
+    let dir = RNFetchBlob.fs.dirs.DocumentDir + '/kaltura/2503031/1_nu2wespu/video.m3u8';
     console.log(dir);
     RNFetchBlob.config({
       fileCache: true,
-      appendExt: "mpd",
+      appendExt: "m3u8",
       path: dir,
     })
       .fetch('GET', downloadURI, {})
